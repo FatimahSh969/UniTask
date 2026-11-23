@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UniTask | University Task Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#" data-view-link="dashboard" aria-label="UniTask home">
+        <span class="logo" aria-hidden="true">U</span>
+        <span>
+          <span class="brand-name">UniTask</span>
+          <span class="tagline">Make every study session count.</span>
+        </span>
+      </a>
+      <span class="header-note"><span class="live-dot"></span> Your study space</span>
+    </div>
+  </header>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <button class="nav-link active" type="button" data-view="dashboard"><span>⌂</span> Overview</button>
+      <button class="nav-link" type="button" data-view="tasks"><span>▤</span> My tasks</button>
+      <button class="nav-link" type="button" data-view="add"><span>＋</span> Add a task</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="page-view active" id="view-dashboard">
+      <section class="welcome-panel">
+        <div class="welcome-copy">
+          <span class="eyebrow">A LITTLE PROGRESS ADDS UP</span>
+          <h2>Stay focused.<br><em>Your goals are closer than you think.</em></h2>
+          <p>Plan your work, keep your momentum, and celebrate every task you complete.</p>
+          <button class="primary welcome-cta" type="button" data-view="add">＋ Create a task</button>
+        </div>
+        <div class="welcome-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="art-card"><span class="art-check">✓</span><span class="art-lines"><i></i><i></i><i></i></span>
+          </div>
+          <span class="spark spark-one">✦</span><span class="spark spark-two">✧</span>
+        </div>
+      </section>
+      <section class="dashboard-wrap">
+        <div class="section-intro">
+          <div><span class="eyebrow">YOUR PROGRESS</span>
+            <h2>Look how far you’ve come</h2>
+          </div>
+          <p>Small steps, big results.</p>
+        </div>
+        <section class="panel" id="dashboard"></section>
+      </section>
+      <section class="suggestions-wrap">
+        <div class="section-intro">
+          <div><span class="eyebrow">PLAN YOUR TIME</span>
+            <h2>What to work on next</h2>
+          </div>
+          <p>Suggestions based on priority and deadlines.</p>
+        </div>
+        <section class="panel" id="suggestions"></section>
+      </section>
+      <section class="dashboard-bottom">
+        <div><span class="eyebrow">READY WHEN YOU ARE</span>
+          <h3>One task at a time.</h3>
+          <p>Choose your next step and keep moving forward.</p>
+        </div>
+        <button class="secondary" type="button" data-view="tasks">View my tasks <span>→</span></button>
+      </section>
+    </section>
+
+    <section class="page-view" id="view-add">
+      <section class="panel form-panel">
+        <div class="section-heading">
+          <div class="heading-icon" aria-hidden="true">+</div>
+          <div>
+            <h2 id="formHeading">Add a New Task</h2>
+            <p>Keep track of your deadlines and stay organized.</p>
+          </div>
+        </div>
+
+        <form id="taskForm" novalidate>
+          <div class="form-grid">
+            <label for="taskTitle">Task title
+              <input id="taskTitle" type="text" maxlength="80" required placeholder="e.g. Software Engineering report">
+            </label>
+
+            <label for="taskDue">Due date and time
+              <input id="taskDue">
+            </label>
+          </div>
+
+          <div class="form-grid">
+            <label for="taskCourse">Course (optional)
+              <span id="courseSlot"></span>
+            </label>
+
+            <label for="taskPriority">Priority
+              <span id="prioritySlot"></span>
+            </label>
+          </div>
+
+          <label for="taskStatus">Status
+            <span id="statusSlot"></span>
+          </label>
+
+          <label for="taskDesc">Description (optional)
+            <textarea id="taskDesc" maxlength="500" rows="3" placeholder="e.g. Chapters 1-3, 10 pages"></textarea>
+          </label>
+
+          <p class="error" id="formError" role="alert"></p>
+
+          <div class="form-actions">
+            <button class="primary" type="submit">
+              <span class="button-plus" aria-hidden="true">+</span>
+              <span id="submitLabel">Add task</span>
+            </button>
+            <button class="secondary" type="button" id="cancelEdit" hidden>Cancel</button>
+          </div>
+        </form>
+      </section>
+    </section>
+
+    <section class="page-view" id="view-tasks">
+      <section class="tasks-section">
+        <div class="tasks-heading">
+          <div>
+            <h2>My Tasks</h2>
+            <p>Keep track of what’s next.</p>
+          </div>
+          <label>Filter by course <span id="filterSlot"></span></label>
+        </div>
+
+        <ul id="taskList"></ul>
+        <p id="msg" role="status"></p>
+      </section>
+    </section>
+  </main>
+
+  <footer><strong>UniTask</strong> · Better planning. Brighter future.</footer>
+
+  <script src="store.js"></script>
+  <script src="dates.js"></script>
+  <script src="status.js"></script>
+  <script src="course.js"></script>
+  <script src="priority.js"></script>
+  <script src="tasks.js"></script>
+  <script src="delete.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="dashboard-ui.js"></script>
+  <script src="countdown.js"></script>
+  <script src="countdown-ui.js"></script>
+  <script src="suggestions.js"></script>
+  <script src="suggestions-ui.js"></script>
+  <script src="sort.js"></script>
+  <script src="edit.js"></script>
+  <script src="edit-ui.js"></script>
+  <script src="delete-ui.js"></script>
+
+  <script>
+    var form = document.getElementById('taskForm');
+    var titleInput = document.getElementById('taskTitle');
+    var descInput = document.getElementById('taskDesc');
+    var dueInput = document.getElementById('taskDue');
+    var errorEl = document.getElementById('formError');
+    var listEl = document.getElementById('taskList');
+    var msgEl = document.getElementById('msg');
+    var cancelBtn = document.getElementById('cancelEdit');
+
+    UniDates.initDueDatePicker(dueInput, { defaultToEndOfDay: true });
+
+    var statusSelect = UniStatus.createStatusSelect(
+      UniStatus.DEFAULT_STATUS, 'taskStatus'
+    );
+
+    document.getElementById('statusSlot').appendChild(statusSelect);
+
+    var courseSelect = UniCourse.createCourseSelect(UniCourse.NO_COURSE, 'taskCourse');
+    document.getElementById('courseSlot').appendChild(courseSelect);
+
+    var prioritySelect = UniPriority.createPrioritySelect(UniPriority.DEFAULT_PRIORITY, 'taskPriority');
+    var filterSelect = document.createElement('select'); filterSelect.id = 'courseFilter';
+    [['', 'All courses']].concat(UniCourse.COURSES.map(function (c) { return [c, c]; }), [['__none', 'No course']])
+      .forEach(function (p) { var o = document.createElement('option'); o.value = p[0]; o.textContent = p[1]; filterSelect.appendChild(o); });
+    document.getElementById('filterSlot').appendChild(filterSelect);
+    filterSelect.addEventListener('change', render);
+    document.getElementById('prioritySlot').appendChild(prioritySelect);
+
+    // The parts of the form, used by edit-ui.js (Task 8.2)
+    var formEls = {
+      form: form, title: titleInput, desc: descInput, due: dueInput,
+      course: courseSelect, priority: prioritySelect, status: statusSelect,
+      heading: document.getElementById('formHeading'),
+      submitLabel: document.getElementById('submitLabel'),
+      cancel: cancelBtn, error: errorEl
+    };
+
+    function showView(name) {
+      document.querySelectorAll('.page-view').forEach(function (page) {
+        page.classList.toggle('active', page.id === 'view-' + name);
+      });
+      document.querySelectorAll('.nav-link').forEach(function (link) {
+        var active = link.getAttribute('data-view') === name;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current', 'page');
+        else link.removeAttribute('aria-current');
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('[data-view], [data-view-link]').forEach(function (control) {
+      control.addEventListener('click', function () {
+        var name = control.getAttribute('data-view') || control.getAttribute('data-view-link');
+        if (name === 'add' && UniEditUI.isEditing()) UniEditUI.reset(formEls);
+        showView(name);
+      });
+    });
+
+    cancelBtn.addEventListener('click', function () {
+      UniEditUI.reset(formEls);
+      showView('tasks');
+      msgEl.textContent = 'Editing cancelled.';
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      if (UniEditUI.isEditing()) {                       // Task 8.2: save the changes
+        var edited = UniEditUI.save(formEls);
+        if (!edited.ok) {
+          errorEl.textContent = edited.error;
+          var editFocus = {
+            title: titleInput, description: descInput, dueDate: dueInput,
+            course: courseSelect, priority: prioritySelect, status: statusSelect
+          }[edited.field];
+          if (editFocus) editFocus.focus();
+          return;
+        }
+        UniEditUI.reset(formEls);
+        msgEl.textContent = '"' + edited.task.title + '" was updated.';
+        render();
+        showView('tasks');   // after saving the changes, go back to My tasks
+        return;
+      }
+
+      var result = UniTaskAdd.addTask({
+        title: titleInput.value,
+        description: descInput.value,
+        dueDate: dueInput.value,
+        status: statusSelect.value,
+        course: courseSelect.value,
+        priority: prioritySelect.value
+      });
+
+      if (!result.ok) {
+        errorEl.textContent = result.error;
+        var focusEl = { title: titleInput, description: descInput, dueDate: dueInput }[result.field];
+        if (focusEl) focusEl.focus();
+        return;
+      }
+
+      errorEl.textContent = '';
+      form.reset();
+
+      UniDates.initDueDatePicker(dueInput, { defaultToEndOfDay: true });
+      statusSelect.value = UniStatus.DEFAULT_STATUS;
+      courseSelect.value = UniCourse.NO_COURSE;
+      prioritySelect.value = UniPriority.DEFAULT_PRIORITY;
+      msgEl.textContent = 'Task added. You’re making progress!';
+      render();
+      showView('tasks');
+    });
+
+    function render() {
+      listEl.innerHTML = '';
+
+      var tasks = UniTaskSort.overdueFirst(UniTaskStore.getTasks());   // Task 10.2: overdue tasks first
+      var f = filterSelect.value;
+      if (f) tasks = tasks.filter(function (t) { return f === '__none' ? !t.course : t.course === f; });
+      UniDashboardUI.render();   // Task 6.3: the dashboard is refreshed after every change
+      UniSuggestionsUI.render();   // Task 13.2: the suggestions are refreshed after every change
+
+      if (!tasks.length) {
+        var li = document.createElement('li');
+        li.className = 'empty';
+        li.textContent = filterSelect.value ? 'No tasks for this course.' : UniDeleteUI.getEmptyText();
+        listEl.appendChild(li);
+        return;
+      }
+      
+
+      tasks.forEach(function (t) {
+        var li = document.createElement('li');
+
+        var top = document.createElement('div');
+        top.className = 'row';
+
+        var title = document.createElement('span');
+        title.className = 'title';
+        title.textContent = t.title;
+
+        top.appendChild(title);
+        var courseBadge = UniCourse.createCourseBadge(t.course);   // Task 3.2
+        if (courseBadge) top.appendChild(courseBadge);
+        var priorityBadge = UniPriority.createPriorityBadge(t.priority);
+        if (priorityBadge) top.appendChild(priorityBadge);
+        top.appendChild(UniStatus.createStatusBadge(t.status));
+
+        var due = document.createElement('div');
+        due.className = 'due';
+        due.textContent = 'Due ' + UniDates.formatDueDate(t.dueDate);
+
+        if (UniDates.isOverdue(t.dueDate, t.status)) {
+          li.classList.add('task-overdue');   // Task 10.1
+          var tag = document.createElement('span');
+          tag.className = 'overdue';
+          tag.textContent = ' – overdue';
+          due.appendChild(tag);
+        }
+        var countdown = UniCountdownUI.createLabel(t);   // Task 7.2
+
+        var desc = null;
+        if (t.description) {
+          desc = document.createElement('div');
+          desc.className = 'desc';
+          desc.textContent = t.description;
+        }
+
+
+        var bottom = document.createElement('div');
+        bottom.className = 'row';
+
+        var select = UniStatus.createStatusSelect(t.status);
+
+        UniStatus.wireStatusSelect(select, t.id, function (result) {
+          msgEl.textContent = result.ok ? 'Status saved.' : result.error;
+          render();
+        });
+
+        var del = document.createElement('button');
+        del.className = 'link';
+        del.type = 'button';
+        del.textContent = 'Delete';
+
+        del.addEventListener('click', function () {
+          var result = UniTaskDelete.confirmAndDelete(t.id);   // Task 9.1
+          if (result.cancelled) return;
+          if (result.ok && UniEditUI.currentId() === t.id) UniEditUI.reset(formEls);
+          msgEl.textContent = UniDeleteUI.messageAfterDelete(result);   // Task 9.2
+          render();
+        });
+
+        var edit = document.createElement('button');
+        edit.className = 'link';
+        edit.type = 'button';
+        edit.textContent = 'Edit';
+        edit.addEventListener('click', function () {   // Task 8.2
+          if (UniEditUI.start(t.id, formEls)) {
+            msgEl.textContent = 'Editing "' + t.title + '".';
+            showView('add');
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+
+        var actions = document.createElement('div');
+        actions.className = 'actions';
+        actions.appendChild(edit);
+        actions.appendChild(del);
+
+        bottom.appendChild(select);
+        bottom.appendChild(actions);
+
+        li.appendChild(top);
+        if (desc) li.appendChild(desc);
+        li.appendChild(due);
+        if (countdown) li.appendChild(countdown);
+        li.appendChild(bottom);
+
+        listEl.appendChild(li);
+      });
+    }
+
+    render();
+    showView('dashboard');
+    UniCountdownUI.startAutoRefresh(listEl);   // Task 7.2: the countdown updates every minute
+  </script>
+</body>
+
+</html>
